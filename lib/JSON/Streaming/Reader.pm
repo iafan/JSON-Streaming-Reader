@@ -598,8 +598,9 @@ sub _get_string_token {
                 $accum .= $replacement;
             }
             elsif ($escape_char eq 'u') {
-                # TODO: Support this
-                die "\\u sequence not yet supported\n";
+                my $s;
+                $s .= $self->_get_char() for (1..4);
+                $accum .= pack('H4', $s);
             }
             else {
                 die "Invalid escape sequence \\$escape_char\n";
@@ -642,8 +643,9 @@ sub _parse_string {
                 $accum .= $replacement if $want_result;
             }
             elsif ($escape_char eq 'u') {
-                # TODO: Support this
-                die "\\u sequence not yet supported\n";
+                my $s;
+                $s .= $self->_get_char() for (1..4);
+                $accum .= pack('H4', $s);
             }
             else {
                 die "Invalid escape sequence \\$escape_char";
